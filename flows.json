@@ -1,0 +1,269 @@
+[
+    {
+        "id": "52c5acb0ff948ae2",
+        "type": "tab",
+        "label": "Ejercicio 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f89c1dd3061e288d",
+        "type": "mqtt in",
+        "z": "52c5acb0ff948ae2",
+        "name": "",
+        "topic": "iot/temperatura",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "3b2a905c28a3698b",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 280,
+        "wires": [
+            [
+                "7a2b5eaeb0bac67b",
+                "425237c34240e5d6",
+                "1fd926848699bff2"
+            ]
+        ]
+    },
+    {
+        "id": "7a2b5eaeb0bac67b",
+        "type": "function",
+        "z": "52c5acb0ff948ae2",
+        "name": "Insert",
+        "func": "if (msg.topic === \"iot/temperatura\" && !isNaN(msg.payload)) {\n    msg.topic = \"INSERT INTO tbl_temperatura(temperatura, descripcion)\" + \n    \" VALUES(\" + msg.payload + \", 'Inserción desde MQTT')\";\n}else{\n    msg.topic = \"\";\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 220,
+        "wires": [
+            [
+                "79d1c6cddc48a3b8"
+            ]
+        ]
+    },
+    {
+        "id": "79d1c6cddc48a3b8",
+        "type": "mysql",
+        "z": "52c5acb0ff948ae2",
+        "mydb": "fc092e7c63675e0b",
+        "name": "BD",
+        "x": 610,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "425237c34240e5d6",
+        "type": "ui_gauge",
+        "z": "52c5acb0ff948ae2",
+        "name": "Temperatura",
+        "group": "bc03f9888fde6780",
+        "order": 0,
+        "width": "0",
+        "height": "0",
+        "gtype": "gage",
+        "title": "Cálculo de temperatura",
+        "label": "C",
+        "format": "{{value}} °C",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#0000ff",
+            "#00ff00",
+            "#ff0000"
+        ],
+        "seg1": "10",
+        "seg2": "30",
+        "diff": false,
+        "className": "",
+        "x": 410,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "1fd926848699bff2",
+        "type": "ui_chart",
+        "z": "52c5acb0ff948ae2",
+        "name": "Histórico",
+        "group": "0eaa5fc34af4cd54",
+        "order": 0,
+        "width": "0",
+        "height": "0",
+        "label": "Histórico",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm",
+        "interpolate": "step",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "100",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#f339b9",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 320,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "89aa439b79965e13",
+        "type": "mqtt in",
+        "z": "52c5acb0ff948ae2",
+        "name": "",
+        "topic": "iot/humedad",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "3b2a905c28a3698b",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 420,
+        "wires": [
+            [
+                "454879ad4c78dd13",
+                "425237c34240e5d6"
+            ]
+        ]
+    },
+    {
+        "id": "454879ad4c78dd13",
+        "type": "ui_gauge",
+        "z": "52c5acb0ff948ae2",
+        "name": "Humedad",
+        "group": "bc03f9888fde6780",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "donut",
+        "title": "Humedad",
+        "label": "",
+        "format": "{{value}} %",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#b3ad00",
+            "#1be600",
+            "#3a6acb"
+        ],
+        "seg1": "30",
+        "seg2": "60",
+        "diff": false,
+        "className": "",
+        "x": 420,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "02607ef9e84cd106",
+        "type": "comment",
+        "z": "52c5acb0ff948ae2",
+        "name": "GDS0551",
+        "info": "# Nombre alumno(a)\nAlan de Jesus Avalos Negrete\n\n# Numero de control\n1222100426",
+        "x": 500,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "3b2a905c28a3698b",
+        "type": "mqtt-broker",
+        "name": "Server",
+        "broker": "127.0.0.1",
+        "port": "1883",
+        "clientid": "jmom",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "fc092e7c63675e0b",
+        "type": "MySQLdatabase",
+        "name": "IoT",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "iot_db",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "bc03f9888fde6780",
+        "type": "ui_group",
+        "name": "Inforamción",
+        "tab": "f53b47126606f560",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "0eaa5fc34af4cd54",
+        "type": "ui_group",
+        "name": "Histórico de Datos",
+        "tab": "f53b47126606f560",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f53b47126606f560",
+        "type": "ui_tab",
+        "name": "Iot",
+        "icon": "payment",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
